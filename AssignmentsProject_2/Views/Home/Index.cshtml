@@ -1,0 +1,95 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Home Page";
+}
+@if (Model.UserName != null)
+{
+    <h1 class="display-4">Welcome @Model.UserName</h1>
+    User u = new User(Model);
+    <div class="form-group">
+    <a href="@Url.Action("Index", "Assignment", u)"  value="Create" class="btn btn-success" id="btn1">Create</a>
+    </div>
+   
+
+    <br />
+    
+
+    if (u.Assignments.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Start</th>
+                    <th>Open</th>
+                    <th>In Progress</th>
+                    <th>Completed</th>
+                    <th>Last Change</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Assignment a in u.Assignments)
+                {
+                   
+                        <tr>
+                            <td>
+                                @a.Number
+                            </td> <td>
+                                @a.Title
+                            </td>
+                            <td>
+                                @a.Description
+                            </td>
+                            <td>
+                                @a.Started
+                            </td>
+                            <td>
+                                @a.IsOpen
+                            </td>
+                            <td>
+                                @a.InProgress
+                            </td>
+                            <td>
+                                @a.IsCompleted
+                            </td>
+                                @if (a.Finish < a.Started)
+                                {
+                            <td>
+                                ---   
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @a.Finish
+                                </td>
+                            }
+                            <td>
+                            <a href="@Url.Action("Edit", "Assignment", a)" id="btn1" value="Edit" class="btn btn-info">Edit</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", "Assignment", a)" type="button" value="Delete" class="btn btn-danger" id="btn1">Delete</a>                              
+                            </td>
+                        </tr>
+                   
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+    <img src="https://www.picshare.co.il/s_pictures/img94089.jpg" width="500" height="500" />
+    }
+    <br />
+    <br />
+    <br />
+ 
+}
+else
+{
+    <h1 class="display-4">Denied!</h1>
+
+}
