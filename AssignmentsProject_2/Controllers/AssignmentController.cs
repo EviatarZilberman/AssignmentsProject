@@ -46,7 +46,6 @@ namespace AssignmentsProject_2.Controllers
             {
                 for (int i = 0; i < AccountController.StaticUser.Assignments.Count; i++)
                 {
-                 //if (Assignment.Compare(AccountController.StaticUser.Assignments[i], AssignmentController.StaticAssignment))
                     if (AccountController.StaticUser.Assignments[i]._id.Equals(AssignmentController.StaticAssignment._id))
                     {
                         assignment.Number = AccountController.StaticUser.Assignments[i].Number;
@@ -62,33 +61,22 @@ namespace AssignmentsProject_2.Controllers
             return RedirectToAction("Index", "Home", AccountController.StaticUser);
         }
 
- /*       public async Task<IActionResult> DeleteIndex (Assignment a)
-        {
-            if (a != null)
-            {
-                Delete(a);
-            }
-            return RedirectToAction("Index", "Home", AccountController.StaticUser);
-        }*/
-
         [HttpGet]
-        public async void Delete(Assignment a)
+        public IActionResult Delete(Assignment a)
         {
-            AssignmentController.StaticAssignment = a;
             for (int i = 0; i < AccountController.StaticUser.Assignments.Count; i++)
             {
-                if (a._id.Equals(AccountController.StaticUser.Assignments[i]))
+                if (a._id.Equals(AccountController.StaticUser.Assignments[i]._id))
                 {
                     AccountController.StaticUser.Assignments.Remove(AccountController.StaticUser.Assignments[i]);
                     break;
                 }
             }
-                SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
-                    MongoStuff.Collections.Users.ToString(),
-                    AccountController.StaticUser._id,
-                    AccountController.StaticUser);
-            // return RedirectToAction("Index", "Home", AccountController.StaticUser);
-           // return CoreReturns.SUCCESS;
+            SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
+                MongoStuff.Collections.Users.ToString(),
+                AccountController.StaticUser._id,
+                AccountController.StaticUser);
+            return RedirectToAction("Index", "Home", AccountController.StaticUser);
         }
     }
 }
