@@ -71,7 +71,8 @@
                             <a href="@Url.Action("Edit", "Assignment", a)" id="btn1" value="Edit" class="btn btn-info">Edit</a>
                             </td>
                             <td>
-                                <a href="@Url.Action("Delete", "Assignment", a)" type="button" value="Delete" class="btn btn-danger" id="btn1">Delete</a>                              
+                            <button asp-action="Delete" asp-controller="Assignment" asp-route-_id=@a._id class="btn btn-danger" id="btn1">Delete</button>
+                            @*<a href="@Url.Action("Delete", "Assignment", a)" type="button" value="Delete" class="btn btn-danger" id="btn1">Delete</a>                              *@
                             </td>
                         </tr>
                    
