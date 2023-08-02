@@ -8,7 +8,7 @@ namespace Utilities
 {
     public class LogWriter
     {
-        public static string PATH = @"C:\Users\User\Projects\Website\System.log";
+        public static string PATH = @"C:\Users\User\Projects\AssignmentsProject_2\System.log";
         public string NewPath { get; set; } = string.Empty;
         public StreamWriter StreamWriter { get; set; }
         private static LogWriter LoggerWriter { get; set; } = null;
