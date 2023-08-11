@@ -22,11 +22,6 @@ namespace AssignmentsProject_2.Controllers
             return View();
         }
 
-        public IActionResult CreateRole()
-        {
-            return View();
-        }
-
         [HttpPost] // TODO = MAKE ASYNC
         public async Task<IActionResult> Create(User user)
         {

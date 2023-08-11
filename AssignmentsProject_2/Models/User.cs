@@ -31,7 +31,6 @@ namespace AssignmentsProject_2.Models
         public List<Assignment> Assignments { get; set; } = new List<Assignment>();
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public bool KeepLoggedIn { get; set; }
-        public int Number = 1;
         public User (User u)
         {
             this._id = u._id;
@@ -43,7 +42,6 @@ namespace AssignmentsProject_2.Models
             this.Assignments = u.Assignments;
             this.CreationDate = u.CreationDate;
             this.KeepLoggedIn = u.KeepLoggedIn;
-            this.Number = u.Number;
         }
         public User() { }
     }

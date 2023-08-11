@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using AssignmentsProject_2.Controllers;
+using MongoDB.Bson;
 using Utilities;
 
 namespace AssignmentsProject_2.Models
@@ -15,7 +16,7 @@ namespace AssignmentsProject_2.Models
         public bool InProgress { get; set; } = false;
         public int Number = 0;
 
-        public Assignment () { }
+        public Assignment() { }
 
         public Assignment(string title, string description, DateTime started, DateTime finish, bool isOpen, bool isCompleted, bool inProgress)
         {
@@ -40,7 +41,18 @@ namespace AssignmentsProject_2.Models
             this.InProgress = a.InProgress;
         }
 
-        public static bool Compare (Assignment a1, Assignment a2)
+     /*   public CoreReturns SortAssignments(Assignment assignment)
+        {
+            if (assignment == null) return CoreReturns.IS_NULL;
+
+            List<Assignment> list = new List<Assignment>();
+            for (int i = 0; i < AccountController.StaticUser.Assignments.Count; i++)
+            {
+                AccountController.StaticUser.Assignments.OrderBy(s => s.Number);
+            }
+        }*/
+
+        public static bool Compare(Assignment a1, Assignment a2)
         {
             if (a1 == null || a2 == null)
             {
@@ -52,16 +64,14 @@ namespace AssignmentsProject_2.Models
                 return false;
             }
             if (!a1.Title.Equals(a2.Title)) return false;
-                if (!a1.Description.Equals(a2.Description)) return false;
-               if (!a1.Started.Equals(a2.Started)) return false;
+            if (!a1.Description.Equals(a2.Description)) return false;
+            if (!a1.Started.Equals(a2.Started)) return false;
             if (!a1.Finish.Equals(a2.Finish)) return false;
             if (a1.IsOpen != a2.IsOpen) return false;
-                if (a1.InProgress != a2.InProgress) return false;
+            if (a1.InProgress != a2.InProgress) return false;
             if (a1.IsCompleted != a2.IsCompleted) return false;
-                
-         
-          
-                return true; 
+
+            return true;
         }
     }
 }

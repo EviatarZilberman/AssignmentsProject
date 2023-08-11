@@ -13,32 +13,22 @@ using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribut
 
 namespace AssignmentsProject_2.Controllers
 {
+    //[Authorize]
     public class AccountController : Controller
     {
         public static User? StaticUser { get; set; } = null;
-        /*  public PassModel Pass { get; set; }
+        private SignInManager<ApplicationUser> SignInManager { get; set; }
+        private UserManager<ApplicationUser> UserManager { get; set; }
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            this.UserManager = userManager;
+            this.SignInManager = signInManager;
+        }
 
-          public AccountController() { }
-          public AccountController(PassModel Pass) {
-              this.Pass = Pass;
-          }
-          public AccountController (User u, Assignment a)
-          {
-              this.Pass = new PassModel { User = u, Assignment = a };
-          }*/
-        /*        private UserManager<ApplicationUser> _userManager;
-                private SignInManager<ApplicationUser> _signInManager;
-
-                public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
-                {
-                    this._userManager = userManager;
-                    this._signInManager = signInManager;
-                }*/
-
-        /*   public IActionResult Login()
-           {
-               return View();
-           }*/
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         public IActionResult AccessDenied()
         {
@@ -51,7 +41,7 @@ namespace AssignmentsProject_2.Controllers
 
             if (claimUser.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Assignment");
+                return RedirectToAction("Index", "Home");
             }
 
 
@@ -64,38 +54,35 @@ namespace AssignmentsProject_2.Controllers
             List<User> users = new List<User>();
             DBManager<User>.Instance(MongoStuff.Databases.AssignmentsProject_2.ToString())
                 .LoadAll(MongoStuff.Collections.Users.ToString(), out users);
-            User u = new Models.User();
             for (int i = 0; i < users.Count; i++)
             {
                 if (user.Email.Equals(users[i].Email) && user.Password.Equals(users[i].Password))
                 {
-                    u = new User(users[i]);
-                    AccountController.StaticUser = u;
+                    AccountController.StaticUser = new User(users[i]);
+                    users[i].KeepLoggedIn = user.KeepLoggedIn;
+                    AccountController.StaticUser.KeepLoggedIn = user.KeepLoggedIn;
                     List<Claim> claims = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.NameIdentifier, user.Email),
-                        new Claim("OtherProperties", "Example Role")
+                        new Claim(ClaimTypes.NameIdentifier, AccountController.StaticUser.ToString()),
                     };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
                         CookieAuthenticationDefaults.AuthenticationScheme);
 
                     AuthenticationProperties properties = new AuthenticationProperties()
                     {
-
                         AllowRefresh = true,
                         IsPersistent = user.KeepLoggedIn
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), properties);
-                    return RedirectToAction("Index", "Home", u);
+                    return RedirectToAction("Index", "Home", user);
                 }
             }
             ViewBag.Message = "User not found";
 
             return View();
         }
-
 
         /*  [HttpPost]
       //[AllowAnonymous]

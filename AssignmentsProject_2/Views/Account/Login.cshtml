@@ -1,7 +1,9 @@
-﻿
+﻿@model User;
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+    //Layout = null;
+
 }
 
 <h1 class="bg-info text-white">Login</h1>
@@ -20,10 +22,10 @@
             <label>Password</label>
         <input name="password" class="form-control" type="password" />
         </div>
-        <div>
+    <div class="form-group">
         <label>
-            Keep me logged In
-            <input type="checkbox" />
+            Keep me logged In 
+            <input name="KeepLoggedIn" asp-for="KeepLoggedIn" type="checkbox" />
         </label>
         </div>
         <br />

@@ -32,11 +32,11 @@ namespace AssignmentsProject_2.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> LogOut()
+        public async Task<IActionResult> Logout(User u)
         {
-
+            u = AccountController.StaticUser;
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Access");
+            return RedirectToAction("Login", "Account");
         }
     }
 }
