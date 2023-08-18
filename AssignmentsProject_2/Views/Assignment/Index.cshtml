@@ -1,18 +1,19 @@
-﻿@model Assignment;
+﻿@model Assignment
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create New Assignment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="center" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="center-in">
+        <h1 class="text-center">@ViewData["Title"]</h1>
+    </div>
+</div>
 
-<h4>Assignment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="center">
         <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -20,13 +21,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+            <textarea input asp-for="Description" class="form-control" style="height: 100px; width: 100%;"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <br/>
-            <div class="form-group">
+          
+            <div class="form-group" style="text-align: center; margin-top: 50px;">
                 <input type="submit" value="Create" class="btn btn-primary" id="btn1" asp-controller="Assignment" asp-action="Create" />
             </div>
         </form>
-    </div>
 </div>

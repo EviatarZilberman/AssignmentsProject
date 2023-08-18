@@ -34,10 +34,9 @@ namespace AssignmentsProject_2.Controllers
             {
                 assignment.Number = AccountController.StaticUser.Assignments.Count + 1;
                 AccountController.StaticUser.Assignments.Add(assignment);
-                //  AccountController.StaticUser.Assignments.OrderBy(s => s.Number);
 
-                AccountController.StaticUser.Assignments.Reverse();
-
+/*                AccountController.StaticUser.Assignments.Reverse();
+*/
                 SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
                     MongoStuff.Collections.Users.ToString(),
                     AccountController.StaticUser._id,

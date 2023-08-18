@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - 603Assignments</title>
+    <title>603Assignments</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AuthProject.styles.css" asp-append-version="true" />
@@ -14,16 +14,16 @@
 <body>
     <div class="center" style="margin-top: 50px; margin-bottom: 50px;">
         <div class="center-in">
-        <h1 class="text-center">Welcome To Assignment603!</h1>
+            <h1 class="text-center">Welcome To Assignment603!</h1>
         </div>
         <div style="margin-top: 50px; margin-bottom: 150px;">
             <div class="float-div">
-                <a href="@Url.Action("Index", "User")" id="btn1" value="Create" class="btn btn-warning"><span>Create</span><span><i class="fa fa-home-white"></i></span></a>
-        </div>
-            <div class="float-div">
-        <a href="@Url.Action("Index", "Account")" type="button" value="Login" class="btn btn-dark" id="btn1">Login</a>
+                <a href="@Url.Action("Create", "User")" id="btn1" value="Create" class="btn btn-warning"><span>Create</span><span><i class="fa fa-home-white"></i></span></a>
             </div>
-    </div>
+            <div class="float-div">
+                <a href="@Url.Action("Login", "Account")" type="button" value="Login" class="btn btn-dark" id="btn1">Login</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,33 +1,48 @@
 ﻿@model AssignmentsProject_2.Models.User
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Register";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-<h1>Create</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AuthProject.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="center" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="center-in">
+            <h1 class="text-center">@ViewData["Title"]</h1>
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @{
-            if (ViewBag.Message != null)
-            {
-                if (ViewBag.Message == "User Created Successfully!")
+            <div class="text-danger" asp-validation-summary="All"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <form asp-action="Create" class="center">
+            @{
+                if (ViewBag.Message != null)
                 {
-                    <div class="p-1 mb-2 bg-success text-white">@ViewBag.Message</div>
-                }
-                else if (ViewBag.Message == "Username or email are being used!")
-                {
-                    <div class="p-1 mb-2 bg-warning text-white">@ViewBag.Message</div>
-                }
-                else
-                {
-                    <div class="p-1 mb-2 bg-danger text-white">@ViewBag.Message</div>
+                    if (ViewBag.Message == "User Created Successfully!")
+                    {
+                        <div class="p-1 mb-2 bg-success text-white">@ViewBag.Message</div>
+                    }
+                    else if (ViewBag.Message == "Username or email are being used!")
+                    {
+                        <div class="p-1 mb-2 bg-warning text-white">@ViewBag.Message</div>
+                    }
+                    else
+                    {
+                        <div class="p-1 mb-2 bg-danger text-white">@ViewBag.Message</div>
+                    }
                 }
             }
-        }
-        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -55,13 +70,14 @@
                 <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" id="btn1" />
-            </div>
+            <div class="form-group" style="text-align: center; margin-top: 50px;">
+                    <input type="submit" value="Create" class="btn btn-warning" id="btn1" />
+                </div>
+
         </form>
     </div>
-</div>
+</body>
+</html>
 
 @section Scripts {
     @{

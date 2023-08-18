@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Secured}/{action=Index}/{id?}");
+    pattern: "{controller=CreateAndRegister}/{action=Index}/{id?}");
 
 app.Run();
