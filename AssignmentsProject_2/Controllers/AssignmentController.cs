@@ -32,11 +32,17 @@ namespace AssignmentsProject_2.Controllers
         {
             if (AccountController.StaticUser != null)
             {
-                assignment.Number = AccountController.StaticUser.Assignments.Count + 1;
+                int number = 0;
+                foreach (Assignment a in AccountController.StaticUser.Assignments) // Finds the higher assignment number.
+                {
+                    number = a.Number;
+                }
+                assignment.Number = number + 1; // Sets the assignment a number by the specific user assignmens list.
                 AccountController.StaticUser.Assignments.Add(assignment);
 
-/*                AccountController.StaticUser.Assignments.Reverse();
-*/
+                var list = AccountController.StaticUser.Assignments.OrderByDescending(a => a.Number).ToList(); // Sets the assignments as LIFO.
+                AccountController.StaticUser.Assignments = list;
+
                 SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
                     MongoStuff.Collections.Users.ToString(),
                     AccountController.StaticUser._id,
