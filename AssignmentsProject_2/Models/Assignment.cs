@@ -11,22 +11,26 @@ namespace AssignmentsProject_2.Models
         public string Description { get; set; } = string.Empty;
         public DateTime Started { get; set; } = DateTime.Now;
         public DateTime Finish { get; set; }
-        public bool IsOpen { get; set; } = true;
+        public string Status { get; set; } = string.Empty;
+        /*public bool IsOpen { get; set; } = true;
         public bool IsCompleted { get; set; } = false;
-        public bool InProgress { get; set; } = false;
+        public bool InProgress { get; set; } = false;*/
         public int Number = 0;
 
         public Assignment() { }
 
-        public Assignment(string title, string description, DateTime started, DateTime finish, bool isOpen, bool isCompleted, bool inProgress)
+        public Assignment(string title, string description, DateTime started, DateTime finish,
+/*            bool isOpen, bool isCompleted, bool inProgress
+*/            string status)
         {
             this.Title = title;
             this.Description = description;
             this.Started = started;
             this.Finish = finish;
-            this.IsOpen = isOpen;
+            this.Status = status;
+          /*  this.IsOpen = isOpen;
             this.IsCompleted = isCompleted;
-            this.InProgress = inProgress;
+            this.InProgress = inProgress;*/
         }
 
         public Assignment(Assignment a)
@@ -35,10 +39,11 @@ namespace AssignmentsProject_2.Models
             this.Description = a.Description;
             this.Started = a.Started;
             this.Finish = a.Finish;
-            this.IsCompleted = a.IsCompleted;
+            this.Status=a.Status;
+           /* this.IsCompleted = a.IsCompleted;
             this.InProgress = a.InProgress;
             this.IsCompleted = a.IsCompleted;
-            this.InProgress = a.InProgress;
+            this.InProgress = a.InProgress;*/
         }
 
      /*   public CoreReturns SortAssignments(Assignment assignment)
@@ -67,10 +72,11 @@ namespace AssignmentsProject_2.Models
             if (!a1.Description.Equals(a2.Description)) return false;
             if (!a1.Started.Equals(a2.Started)) return false;
             if (!a1.Finish.Equals(a2.Finish)) return false;
-            if (a1.IsOpen != a2.IsOpen) return false;
+            /*if (a1.IsOpen != a2.IsOpen) return false;
             if (a1.InProgress != a2.InProgress) return false;
             if (a1.IsCompleted != a2.IsCompleted) return false;
-
+*/
+            if (a1.Status != a2.Status) return false;
             return true;
         }
     }

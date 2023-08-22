@@ -44,7 +44,6 @@ namespace AssignmentsProject_2.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-
             return View();
         }
 

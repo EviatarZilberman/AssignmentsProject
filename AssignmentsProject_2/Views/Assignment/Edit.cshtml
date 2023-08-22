@@ -43,36 +43,21 @@
                 <input asp-for="Finish" class="form-control" />
                 <span asp-validation-for="Finish" class="text-danger"></span>
             </div>*@
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" asp-for="IsOpen" /> @Html.DisplayNameFor(model => model.IsOpen)
-                @if (Model.IsOpen)
-                    {
-                        Model.InProgress = false;
-                        Model.IsCompleted = false;
-                    }
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" asp-for="InProgress" /> @Html.DisplayNameFor(model => model.InProgress)
-                    @if (Model.InProgress)
-                    {
-                        Model.IsOpen = false;
-                        Model.IsCompleted = false;
-                    }
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" asp-for="IsCompleted" /> @Html.DisplayNameFor(model => model.IsCompleted)
-                    @if (Model.IsCompleted)
-                    {
-                        Model.IsOpen = false;
-                        Model.InProgress = false;
-                    }
-                </label>
-            </div>
+        <div class="form-group">
+            @{
+                List<string> selectList = new List<string>();
+                List<SelectListItem> selectListItem = new List<SelectListItem>()
+            {
+            new SelectListItem { Text = "To Do" },
+            new SelectListItem { Text = "In Progress" },
+            new SelectListItem { Text = "Done" }
+            };
+            }
+            <label asp-for="Status" class="form-label">Status</label>
+            <select class="form-select" asp-items="selectListItem" asp-for="Status"></select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+
+        </div>
         <div class="form-group" style="text-align: center; margin-top: 50px;">
             <input type="submit" value="Save" class="btn btn-info" id="btn1" asp-action="EditAssignment" asp-controller="Assignment" />
             </div>

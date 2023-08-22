@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AssignmentsProject_2.Controllers
 {
@@ -18,12 +19,8 @@ namespace AssignmentsProject_2.Controllers
         public IActionResult Index(User u)
         {
             u = AccountController.StaticUser;
+            
             return View(u);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -24,7 +24,22 @@
             <textarea input asp-for="Description" class="form-control" style="height: 100px; width: 100%;"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-          
+        <div class="form-group">
+            @{
+                List<string> selectList = new List<string>();
+                List<SelectListItem> selectListItem = new List<SelectListItem>()
+            {
+            new SelectListItem { Text = "To Do" },
+            new SelectListItem { Text = "In Progress" },
+            new SelectListItem { Text = "Done" }
+            }; 
+            }
+            <label asp-for="Status" class="form-label">Status</label>
+            <select class="form-select" asp-items="selectListItem" asp-for="Status"></select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+
+        </div>
+
             <div class="form-group" style="text-align: center; margin-top: 50px;">
                 <input type="submit" value="Create" class="btn btn-primary" id="btn1" asp-controller="Assignment" asp-action="Create" />
             </div>
