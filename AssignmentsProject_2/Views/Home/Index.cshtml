@@ -1,6 +1,7 @@
 ﻿@model User
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="center" style="text-align: center">
     @{
@@ -8,18 +9,29 @@
     }
     @if (Model.UserName != null)
     {
-        <div class="center-in">
-            <h1 class="text-center">Welcome @Model.UserName</h1>
+        <div class="center-in" id="title">
+            <h1 class="text-center">Welcome, @Model.UserName!</h1>
 
             <div class="text-danger" asp-validation-summary="All"></div>
         </div>
-        <div class="form-group" style="text-align: center; margin-top: 50px; margin-bottom: 50px;">
+        <div class="form-group" id="_btn">
             <a href="@Url.Action("Index", "Assignment", u)" value="Create" class="btn btn-success" id="btn1">Create</a>
         </div>
     }
 </div>
 
 <br />
+@if (TempData["Message"] != null)
+{
+    if (TempData["Message"].Equals($"Assignment ({TempData["Title"]}) editted seccessfully!"))
+    {
+        <div class="p-1 mb-2 bg-success text-white">@TempData["Message"]</div>
+    }
+    else
+    {
+        <div class="p-1 mb-2 bg-success text-white">@TempData["Message"]</div>
+    }
+}
 
 @if (u.Assignments.Count > 0 && Model != null)
 {
@@ -57,7 +69,7 @@
                     <td>
                         @a.Status
                     </td>
-                  
+
                     @if (a.Finish < a.Started)
                     {
                         <td>

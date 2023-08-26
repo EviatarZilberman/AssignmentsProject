@@ -33,7 +33,6 @@ body {
     padding: 10px;
     top: 50%;
     left: 50%;
-    //border: solid;
     font-family: "Times New Roman", "Times", "serif";
 }
 
@@ -49,4 +48,15 @@ body {
     float: left;
     padding: 20px;
     text-align: center;
+}
+
+#title {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#_btn {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }

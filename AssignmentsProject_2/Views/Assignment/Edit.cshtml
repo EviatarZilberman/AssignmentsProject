@@ -1,70 +1,57 @@
-﻿@model AssignmentsProject_2.Models.Assignment
+﻿@using Utilities
+@model AssignmentsProject_2.Models.Assignment
 
 @{
     ViewData["Title"] = "Edit Assignment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="center" style="margin-top: 50px; margin-bottom: 50px;">
+<div class="center" id="title">
+    @if (Model != null)
+    {
+        <div class="center-in">
+            <h1 class="text-center">@ViewData["Title"]</h1>
 
-@if (Model != null)
-{
-    <div class="center-in">
-        <h1 class="text-center">@ViewData["Title"]</h1>
+            <div class="text-danger" asp-validation-summary="All"></div>
+        </div>
+    }
 
-        <div class="text-danger" asp-validation-summary="All"></div>
-    </div>
-}
 </div>
 
-@*<div class="row">
-*@
 <div class="center">
-    @*<div class="col-md-4">*@
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-       @*     <div class="form-group">
-                <label asp-for="Started" class="control-label"></label>
-                <input asp-for="Started" class="form-control" />
-                <span asp-validation-for="Started" class="text-danger"></span>
-            </div>*@
-       @*     <div class="form-group">
-                <label asp-for="Finish" class="control-label"></label>
-                <input asp-for="Finish" class="form-control" />
-                <span asp-validation-for="Finish" class="text-danger"></span>
-            </div>*@
-        <div class="form-group">
-            @{
-                List<string> selectList = new List<string>();
-                List<SelectListItem> selectListItem = new List<SelectListItem>()
+    <form asp-action="Edit">
+    @{
+        if (TempData["Message"] != null)
+        {
+            if (TempData["Message"].Equals("Invalid assignment!"))
             {
-            new SelectListItem { Text = "To Do" },
-            new SelectListItem { Text = "In Progress" },
-            new SelectListItem { Text = "Done" }
-            };
+                <div class="p-1 mb-2 bg-danger text-white">@TempData["Message"]</div>
             }
+            else if (TempData["Message"].Equals("Title is invalid!"))
+            {
+                <div class="p-1 mb-2 bg-warning text-white">@TempData["Message"]</div>
+            }
+        }
+    }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            @*<span asp-validation-for="Title" class="text-danger"></span>*@
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea input asp-for="Description" class="form-control" style="height: 100px; width: 100%;"></textarea>
+            @*<span asp-validation-for="Description" class="text-danger"></span>*@
+        </div>
+        <div class="form-group">
             <label asp-for="Status" class="form-label">Status</label>
-            <select class="form-select" asp-items="selectListItem" asp-for="Status"></select>
-            <span asp-validation-for="Status" class="text-danger"></span>
+            <select class="form-select" asp-items="Lists.AssignmentStatuses()" asp-for="Status"></select>
+            @*<span asp-validation-for="Status" class="text-danger"></span>*@
 
         </div>
-        <div class="form-group" style="text-align: center; margin-top: 50px;">
+        <div class="form-group" id="_btn">
             <input type="submit" value="Save" class="btn btn-info" id="btn1" asp-action="EditAssignment" asp-controller="Assignment" />
-            </div>
-        </form>
-    </div>
-@*</div>*@
-@*</div>*@
-
-
-
+        </div>
+    </form>
+</div>

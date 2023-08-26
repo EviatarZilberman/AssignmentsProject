@@ -17,6 +17,11 @@ namespace AssignmentsProject_2.Controllers
             this._roleManager = roleManager;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -25,6 +30,12 @@ namespace AssignmentsProject_2.Controllers
         [HttpPost] // TODO = MAKE ASYNC
         public async Task<IActionResult> Create(User user)
         {
+            CoreReturns stringResult = Models.User.ValidateUser(user);
+            if (stringResult != CoreReturns.SUCCESS)
+            {
+                ViewBag.Message = Lists.EnumToString(stringResult);
+                return View(user);
+            }
             List<User> users = new List<User>();
              DBManager<User>.Instance(MongoStuff.Databases.AssignmentsProject_2.ToString()).LoadAll(MongoStuff.Collections.Users.ToString(), out users);
             CoreReturns r1 = CoreReturns.WAITING_TO_INITIALIZE, r2 = CoreReturns.WAITING_TO_INITIALIZE;
@@ -109,6 +120,9 @@ namespace AssignmentsProject_2.Controllers
             {
                 return CoreReturns.IS_NULL;
             }
+            //KEEP WORKING HERE!!!
+            if (string.IsNullOrEmpty(u1.UserName) || string.IsNullOrWhiteSpace(u1.UserName)) return CoreReturns.USERNAME_IS_NULL;
+            if (string.IsNullOrEmpty(u1.FirstName) || string.IsNullOrWhiteSpace(u1.LastName)) return CoreReturns.LASTNAME_IS_NULL;
             CoreReturns f = CoreReturns.NOT_EQUAL;
             if (u1.Email.Equals(u2.Email) || u1.UserName.Equals(u2.UserName))
             {

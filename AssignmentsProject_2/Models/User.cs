@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Utilities;
 
 namespace AssignmentsProject_2.Models
 {
@@ -44,5 +45,17 @@ namespace AssignmentsProject_2.Models
             this.KeepLoggedIn = u.KeepLoggedIn;
         }
         public User() { }
+
+        public static CoreReturns ValidateUser (User user)
+        {
+            if (user == null) return CoreReturns.IS_NULL;
+            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrWhiteSpace(user.Email)) return CoreReturns.EMAIL_IS_NULL_OR_EMPTY_OR_WHITESPACE;
+            if (string.IsNullOrEmpty(user.Password) || string.IsNullOrWhiteSpace(user.Password)) return CoreReturns.PASSWORD_IS_NULL_OR_EMPTY_OR_WHITESPACE;
+            if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrWhiteSpace(user.UserName)) return CoreReturns.USERNAME_IS_NULL_OR_EMPTY_OR_WHITESPACE;
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrWhiteSpace(user.UserName)) return CoreReturns.FIRSTNAME_IS_NULL_OR_EMPTY_OR_WHITESPACE;
+            if (string.IsNullOrEmpty(user.LastName) || string.IsNullOrWhiteSpace(user.UserName)) return CoreReturns.LASTNAME_IS_NULL_OR_EMPTY_OR_WHITESPACE;
+            
+            return CoreReturns.SUCCESS;
+        }
     }
 }

@@ -1,47 +1,51 @@
-﻿@model Assignment
+﻿@using Utilities
+@model Assignment
 
 @{
     ViewData["Title"] = "Create New Assignment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="center" style="margin-top: 50px; margin-bottom: 50px;">
+<div class="center" id="title">
     <div class="center-in">
         <h1 class="text-center">@ViewData["Title"]</h1>
     </div>
 </div>
 
 <div class="center">
-        <form asp-action="Index">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-            <textarea input asp-for="Description" class="form-control" style="height: 100px; width: 100%;"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        <div class="form-group">
-            @{
-                List<string> selectList = new List<string>();
-                List<SelectListItem> selectListItem = new List<SelectListItem>()
+    <form asp-action="Index">
+        @{
+            if (TempData["Message"] != null)
             {
-            new SelectListItem { Text = "To Do" },
-            new SelectListItem { Text = "In Progress" },
-            new SelectListItem { Text = "Done" }
-            }; 
+                if (TempData["Message"].Equals("Invalid assignment!"))
+                {
+                    <div class="p-1 mb-2 bg-danger text-white">@TempData["Message"]</div>
+                }
+                else if (TempData["Message"].Equals("Title is invalid!"))
+                {
+                    <div class="p-1 mb-2 bg-warning text-white">@TempData["Message"]</div>
+                }
             }
+        }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea input asp-for="Description" class="form-control" style="height: 100px; width: 100%;"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="Status" class="form-label">Status</label>
-            <select class="form-select" asp-items="selectListItem" asp-for="Status"></select>
+            <select class="form-select" asp-items="Lists.AssignmentStatuses()" asp-for="Status"></select>
             <span asp-validation-for="Status" class="text-danger"></span>
-
         </div>
 
-            <div class="form-group" style="text-align: center; margin-top: 50px;">
-                <input type="submit" value="Create" class="btn btn-primary" id="btn1" asp-controller="Assignment" asp-action="Create" />
-            </div>
-        </form>
+        <div class="form-group" id="_btn">
+            <input type="submit" value="Create" class="btn btn-primary" id="btn1" asp-controller="Assignment" asp-action="Create" />
+        </div>
+    </form>
 </div>
