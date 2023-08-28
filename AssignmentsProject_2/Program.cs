@@ -41,5 +41,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=CreateAndRegister}/{action=Index}/{id?}");
-//LogWriter.Instance().WriteLog("Application Up!", "Application is starting...");
+LogWriter.Instance().WriteLog("Application Up!", "Application is starting...");
 app.Run();
