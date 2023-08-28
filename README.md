@@ -6,5 +6,6 @@ This is my first asp.net core mvc 6 project. In this project I have studied a fe
 4. Authentication.
 5. Async methods.
 6. Input validation.
+7. Routing between views and controllers.
 
 Those issues I have studied are the beginning of a wonderful road to improve myself more. I hope this project will help other people understand asp.net core mvc 6 like it helped me.
