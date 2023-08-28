@@ -60,7 +60,7 @@ namespace AssignmentsProject_2.Controllers
                     AccountController.StaticUser = new User(users[i]);
                     users[i].KeepLoggedIn = user.KeepLoggedIn;
                     AccountController.StaticUser.KeepLoggedIn = user.KeepLoggedIn;
-                    List<Claim> claims = new List<Claim>()
+                    List<Claim>? claims = new List<Claim>()
                     {
                         new Claim(ClaimTypes.NameIdentifier, AccountController.StaticUser.ToString()),
                     };
@@ -75,11 +75,12 @@ namespace AssignmentsProject_2.Controllers
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), properties);
+                    LogWriter.Instance().WriteLog("Login", $"Login as {AccountController.StaticUser.UserName}");
                     return RedirectToAction("Index", "Home", user);
                 }
             }
             ViewBag.Message = "User not found";
-
+            LogWriter.Instance().WriteLog("Login", $"Login failed as Email: {user.Email}");
             return View();
         }
 

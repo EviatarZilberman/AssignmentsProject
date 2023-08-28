@@ -2,6 +2,7 @@ using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using AssignmentsProject_2.Models;
 using AssignmentsProject_2.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,5 +41,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=CreateAndRegister}/{action=Index}/{id?}");
-
+//LogWriter.Instance().WriteLog("Application Up!", "Application is starting...");
 app.Run();

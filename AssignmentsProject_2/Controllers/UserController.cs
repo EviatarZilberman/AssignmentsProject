@@ -27,42 +27,50 @@ namespace AssignmentsProject_2.Controllers
             return View();
         }
 
-        [HttpPost] // TODO = MAKE ASYNC
+        [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
             CoreReturns stringResult = Models.User.ValidateUser(user);
             if (stringResult != CoreReturns.SUCCESS)
             {
-                ViewBag.Message = Lists.EnumToString(stringResult);
+                ViewBag.Message = Colboinik.EnumToString(stringResult);
                 return View(user);
             }
-            List<User> users = new List<User>();
-             DBManager<User>.Instance(MongoStuff.Databases.AssignmentsProject_2.ToString()).LoadAll(MongoStuff.Collections.Users.ToString(), out users);
-            CoreReturns r1 = CoreReturns.WAITING_TO_INITIALIZE, r2 = CoreReturns.WAITING_TO_INITIALIZE;
-            for (int i = 0; i < users.Count; i++)
+            try
             {
-                if (CompareUser(user, users[i]) == CoreReturns.PARAMETERS_EQAUL)
+                List<User> users = new List<User>();
+                DBManager<User>.Instance(MongoStuff.Databases.AssignmentsProject_2.ToString()).LoadAll(MongoStuff.Collections.Users.ToString(), out users);
+                CoreReturns r1 = CoreReturns.WAITING_TO_INITIALIZE, r2 = CoreReturns.WAITING_TO_INITIALIZE;
+                for (int i = 0; i < users.Count; i++)
                 {
-                    ViewBag.Message = "Username or email are being used!";
-                    r1 = CoreReturns.PARAMETERS_EQAUL;
-                    break;
+                    if (CompareUser(user, users[i]) == CoreReturns.PARAMETERS_EQAUL)
+                    {
+                        ViewBag.Message = "Username or email are being used!";
+                        r1 = CoreReturns.PARAMETERS_EQAUL;
+                        break;
+                    }
+                }
+                string message = string.Empty;
+                r2 = ValidPassword(user, out message);
+                if (r2 != CoreReturns.SUCCESS)
+                {
+                    ViewBag.Message = message;
+                }
+                if (r1 != CoreReturns.PARAMETERS_EQAUL && r2 == CoreReturns.SUCCESS)
+                {
+                    CoreReturns result = await DBManager<User>
+                        .Instance(MongoStuff.Databases.AssignmentsProject_2.ToString())
+                        .Insert(MongoStuff.Collections.Users.ToString(), user);
+                    if (result == CoreReturns.SUCCESS)
+                    {
+                        LogWriter.Instance().WriteLog("Create", $"New User was created! User: {user.UserName}");
+                        ViewBag.Message = "User Created Successfully!";
+                    }
                 }
             }
-            string message = string.Empty;
-            r2 = ValidPassword(user, out message);
-            if (r2 != CoreReturns.SUCCESS)
+            catch (Exception ex)
             {
-                ViewBag.Message = message;
-            }
-            if (r1 != CoreReturns.PARAMETERS_EQAUL && r2 == CoreReturns.SUCCESS)
-            {
-                CoreReturns result = DBManager<User>
-                    .Instance(MongoStuff.Databases.AssignmentsProject_2.ToString())
-                    .Insert(MongoStuff.Collections.Users.ToString(), user);
-                if (result == CoreReturns.SUCCESS)
-                {
-                    ViewBag.Message = "User Created Successfully!";
-                }
+                LogWriter.Instance().WriteLog("Create", $"Failed in creating new user! Error: {ex.Message}");
             }
             return View(user);
         }

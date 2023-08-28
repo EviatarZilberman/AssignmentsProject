@@ -41,11 +41,6 @@ namespace AssignmentsProject_2.Controllers
 
             if (AccountController.StaticUser != null)
             {
-                int number = 0;
-                /*  foreach (Assignment a in AccountController.StaticUser.Assignments) // Finds the highest assignment number.
-                  {
-                      number = a.Number;
-                  }*/
                 if (AccountController.StaticUser.Assignments.Count == 0)
                 {
                     assignment.Number = 1;
@@ -59,11 +54,17 @@ namespace AssignmentsProject_2.Controllers
 
                 var tempList = AccountController.StaticUser.Assignments.OrderByDescending(a => a.Number).ToList(); // Sets the assignments as LIFO.
                 AccountController.StaticUser.Assignments = tempList;
-
-                SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
-                    MongoStuff.Collections.Users.ToString(),
-                    AccountController.StaticUser._id,
-                    AccountController.StaticUser);
+                try
+                {
+                    await SimpleModel.UpsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
+                        MongoStuff.Collections.Users.ToString(),
+                        AccountController.StaticUser._id,
+                        AccountController.StaticUser);
+                }
+                catch (Exception ex)
+                {
+                    LogWriter.Instance().WriteLog("Create", $"Assignment {assignment.Title} wasn't created! Error: {ex.Message}");
+                }
             }
             TempData["Message"] = $"Successfully asigning! ({assignment.Title})";
             return RedirectToAction("Index", "Home", AccountController.StaticUser);
@@ -90,27 +91,28 @@ namespace AssignmentsProject_2.Controllers
                     if (AccountController.StaticUser.Assignments[i]._id.Equals(AssignmentController.StaticAssignment._id))
                     {
                         assignment.Number = AccountController.StaticUser.Assignments[i].Number;
+                        assignment.Started = AccountController.StaticUser.Assignments[i].Started;
                         AccountController.StaticUser.Assignments[i] = assignment;
                         AccountController.StaticUser.Assignments[i].Finish = DateTime.Now;
                     }
                 }
-                SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
+                await SimpleModel.UpsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
                     MongoStuff.Collections.Users.ToString(),
                     AccountController.StaticUser._id,
                     AccountController.StaticUser);
             }
             TempData["Title"] = assignment.Title;
-            TempData["Message"] = $"Assignment ({TempData["Title"]}) editted successfully!";
+            TempData["Message"] = $"Assignment ({TempData["Title"]}) was editted successfully!";
             return RedirectToAction("Index", "Home", AccountController.StaticUser);
         }
 
         [HttpGet]
-        public IActionResult Delete(Assignment a)
+        public async Task<IActionResult> Delete(Assignment? a)
         {
             TempData["Title"] = a.Title;
             try
             {
-                for (int i = 0; i < AccountController.StaticUser.Assignments.Count; i++)
+                for (int i = 0; i < AccountController.StaticUser?.Assignments.Count; i++)
                 {
                     if (a._id.Equals(AccountController.StaticUser.Assignments[i]._id))
                     {
@@ -118,7 +120,7 @@ namespace AssignmentsProject_2.Controllers
                         break;
                     }
                 }
-                SimpleModel.upsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
+                await SimpleModel.UpsertRecord(MongoStuff.Databases.AssignmentsProject_2.ToString(),
                     MongoStuff.Collections.Users.ToString(),
                     AccountController.StaticUser._id,
                     AccountController.StaticUser);
@@ -126,8 +128,10 @@ namespace AssignmentsProject_2.Controllers
             } catch (Exception ex)
             {
                 TempData["Message"] = $"Error in deleting assignment! {TempData["Title"]}";
+                LogWriter.Instance().WriteLog("Delete", $"Assignment {a.Title} wasn't deleted successfully! Error: {ex.Message}");
 
             }
+            LogWriter.Instance().WriteLog("Delete", $"Assignment {a.Title} was deleted!");
             return RedirectToAction("Index", "Home", AccountController.StaticUser);
         }
     }

@@ -8,9 +8,9 @@ namespace Utilities
 {
     public class LogWriter
     {
-        public static string PATH = @"C:\Users\User\Projects\AssignmentsProject_2\System.log";
-        public string NewPath { get; set; } = string.Empty;
-        public StreamWriter StreamWriter { get; set; }
+        private static string PATH = @"C:\Logs\System.log";
+        private string NewPath { get; set; } = string.Empty;
+        private StreamWriter StreamWriter { get; set; }
         private static LogWriter LoggerWriter { get; set; } = null;
 
 
@@ -25,14 +25,14 @@ namespace Utilities
                 NewPath = newPathINPUT;
             }
             StreamWriter = new StreamWriter(NewPath, true);
-            StreamWriter.Flush();
+            //StreamWriter.Flush();
         }
 
         private LogWriter()
         {
             NewPath = PATH;
             StreamWriter = new StreamWriter(NewPath, true);
-            StreamWriter.Flush();
+            //StreamWriter.Flush();
 
         }
 
@@ -54,7 +54,7 @@ namespace Utilities
             return LoggerWriter;
         }
 
-        public static CoreReturns CreateFile(string newPathINPUT)
+        private static CoreReturns CreateFile(string newPathINPUT)
         {
             if (!string.IsNullOrEmpty(newPathINPUT))
             {
@@ -84,7 +84,7 @@ namespace Utilities
             return CoreReturns.SUCCESS;
         }
 
-        private CoreReturns WriteLog(string callFuncName, string messageINPUT, string newPathINPUT)
+        public CoreReturns WriteLog(string callFuncName, string messageINPUT, string newPathINPUT)
         {
             if (CreateFile(newPathINPUT) == CoreReturns.SUCCESS || CreateFile(newPathINPUT) == CoreReturns.FILE_EXISTS)
             {
@@ -101,7 +101,7 @@ namespace Utilities
                 //             Logger.Instance().StreamWriter.Close();
 
             }
-            Instance().StreamWriter.Close();
+            Instance().StreamWriter.Flush();
 
             return CoreReturns.SUCCESS;
         }
@@ -120,7 +120,7 @@ namespace Utilities
                     ($"[{DateTime.Now}:{DateTime.Now.Millisecond}] [{callFuncName}] => {messageINPUT}", true);
             }
 
-            Instance().StreamWriter.Close();
+            Instance().StreamWriter.Flush();
 
             return CoreReturns.SUCCESS;
         }

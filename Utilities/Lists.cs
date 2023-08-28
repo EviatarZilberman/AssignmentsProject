@@ -19,13 +19,6 @@ namespace Utilities
             new SelectListItem { Text = "Done" }
             };
         }
-
-        public static string EnumToString (CoreReturns c)
-        {
-            string message = c.ToString().ToLower();
-            string finalMessage = char.ToUpper(message[0]) + message.Substring(1);
-            return finalMessage.Replace('_', ' ');            
-        }
     }
 }
 

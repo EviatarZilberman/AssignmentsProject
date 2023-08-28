@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Utilities;
 
 namespace AssignmentsProject_2.Controllers
 {
@@ -16,7 +17,7 @@ namespace AssignmentsProject_2.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(User u)
+        public IActionResult Index(User? u)
         {
             u = AccountController.StaticUser;
             
@@ -29,10 +30,12 @@ namespace AssignmentsProject_2.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> Logout(User u)
+        public async Task<IActionResult> Logout(User? u)
         {
             u = AccountController.StaticUser;
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            LogWriter.Instance().WriteLog("Logout", $"Logout as {AccountController.StaticUser.UserName}");
+
             return RedirectToAction("Login", "Account");
         }
     }

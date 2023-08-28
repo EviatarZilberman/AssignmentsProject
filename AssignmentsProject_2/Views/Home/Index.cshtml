@@ -23,6 +23,10 @@
 <br />
 @if (TempData["Message"] != null)
 {
+    if (TempData["Message"].Equals($"Error in deleting assignment! {TempData["Title"]}"))
+    {
+        <div class="p-1 mb-2 bg-danger text-white">@TempData["Message"]</div>
+    }
     if (TempData["Message"].Equals($"Assignment ({TempData["Title"]}) editted seccessfully!"))
     {
         <div class="p-1 mb-2 bg-success text-white">@TempData["Message"]</div>

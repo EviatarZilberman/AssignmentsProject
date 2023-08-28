@@ -6,9 +6,9 @@ namespace AssignmentsProject_2.Simple_Model
 {
     public  class SimpleModel
     {
-        public static CoreReturns upsertRecord(string db, string table, Guid id, User u)
+        public async static Task<CoreReturns> UpsertRecord(string db, string table, Guid id, User u)
         {
-            if (string.IsNullOrEmpty(table) || id == null || u == null || string.IsNullOrEmpty(db))
+            if (string.IsNullOrEmpty(table) || u == null || string.IsNullOrEmpty(db))
             {
                 return CoreReturns.IS_NULL_OR_EMPTY;
             }
@@ -24,11 +24,12 @@ namespace AssignmentsProject_2.Simple_Model
                         break;
                     }
                 }
-                DBManager<User>.Instance(db).Insert(table, u);
+                await DBManager<User>.Instance(db).Insert(table, u);
                 return CoreReturns.SUCCESS;
             }
             catch
             {
+                LogWriter.Instance().WriteLog("UpsertRecord", $"Mongo object wasn't updated: {u.UserName}");
                 return CoreReturns.ERROR;
             }
         }
