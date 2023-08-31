@@ -75,60 +75,12 @@ namespace AssignmentsProject_2.Controllers
             return View(user);
         }
 
-
-        /// <summary>
-        /// ORIGIN METHOD!!!
-        /// </summary>
-        /// <param name="userRole"></param>
-        /// <returns></returns>
-        /*[HttpPost]
-        public async Task<IActionResult> Create(User user)
-        {
-
-            if (ModelState.IsValid)
-            {
-                ApplicationUser appUser = new ApplicationUser()
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                };
-                    IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
-                await _userManager.AddToRoleAsync(appUser, "Admin");    
-                if (result == CoreReturns.SUCCESS)
-                        ViewBag.Message = "User Created Successfully!";
-                    else
-                    {
-                        foreach (IdentityError error in result.Errors)
-                            ModelState.AddModelError("", error.Description);
-                    }
-            }
-            return View(user);
-        }*/
-
-        /*[HttpPost]
-        public async Task<IActionResult> CreateRole(UserRole userRole)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = await _roleManager.CreateAsync(new ApplicationRole() { Name = userRole.RoleName });
-                if (result.Succeeded)
-                    ViewBag.Message = "Role Created Successfully!";
-                else
-                {
-                    foreach (IdentityError error in result.Errors)
-                        ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View();
-        }*/
-
         public static CoreReturns CompareUser(User u1, User u2)
         {
             if (u1 == null || u2 == null)
             {
                 return CoreReturns.IS_NULL;
             }
-            //KEEP WORKING HERE!!!
             if (string.IsNullOrEmpty(u1.UserName) || string.IsNullOrWhiteSpace(u1.UserName)) return CoreReturns.USERNAME_IS_NULL;
             if (string.IsNullOrEmpty(u1.FirstName) || string.IsNullOrWhiteSpace(u1.LastName)) return CoreReturns.LASTNAME_IS_NULL;
             CoreReturns f = CoreReturns.NOT_EQUAL;
